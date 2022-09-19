@@ -10,7 +10,7 @@ export default function App() {
 
   async function startRecording() {
 try {
-  const permission = await Audio.reguestPermissionsAsync();
+  const permission = await Audio.requestPermissionsAsync();
 
   if (permission.status === "granted") {
     await Audio.setAudioModeAsync({
@@ -47,7 +47,7 @@ setRecordings(updatedRecordings);
   }
 
   function getDurationFormatted(millis) {
-const minutes = millis / 100 / 60;
+const minutes = millis / 1000 / 60;
 const minutesDisplay = Math.floor(minutes);
 const seconds = Math.round((minutes - minutesDisplay) * 60);
 const secondDisplay = seconds < 10 ? `0${seconds}` : seconds;
@@ -60,6 +60,7 @@ return (
   <View key={index} style={styles.row}>
     <Text style={styles.fill}>Recording {index + 1} = {recordingLine.duration}</Text>
     <Button style={styles.button} onPress={() => recordingLine.sound.replayAsync()} title="Play"></Button>
+    
   </View>
 );
     });
@@ -68,11 +69,11 @@ return (
   return (
     <View style={styles.container}>
       <Text>{message}</Text>
-      <button 
+      <Button 
       title={recording ? 'Stop Recording' : 'Start Recording'}
-       onProgress={recording ? stopRecording : startRecording}/>
+       onPress={recording ? stopRecording : startRecording}/>
        {getRecordingLines()}
-      <StatusBar style="auto" />
+  <StatusBar style="auto" />
     </View>
   );
 }
@@ -97,3 +98,4 @@ const styles = StyleSheet.create({
     margin: 16
   }
 });
+
